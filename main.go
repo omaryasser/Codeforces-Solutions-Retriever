@@ -31,11 +31,11 @@ func main() {
 	if err != nil { panic(err) }
 	for _, acceptedProblem := range acceptedProblems {
 		f, err := os.OpenFile(folderName + "/" + acceptedProblem.getFileName(), os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0700)
-		defer f.Close()
 		if err != nil { panic(err) }
 		_, err = f.WriteString(acceptedProblem.getLink())
 		if err != nil { panic(err) }
 		fmt.Println("Created File:", acceptedProblem.getFileName())
+		f.Close()
 	}
 }
 

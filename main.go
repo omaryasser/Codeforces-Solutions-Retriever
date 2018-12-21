@@ -10,8 +10,6 @@ import (
 	"strings"
 )
 
-
-
 func main() {
 	fmt.Println("Type Your Codeforces Handle.")
 	var handle string
@@ -28,19 +26,25 @@ func main() {
 
 	folderName := "./Codeforces Solutions"
 	err := os.Mkdir(folderName, 0700)
-	if err != nil { panic(err) }
+	if err != nil {
+		panic(err)
+	}
 	for _, acceptedProblem := range acceptedProblems {
-		f, err := os.OpenFile(folderName + "/" + acceptedProblem.getFileName(), os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0700)
-		if err != nil { panic(err) }
+		f, err := os.OpenFile(folderName+"/"+acceptedProblem.getFileName(), os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0700)
+		if err != nil {
+			panic(err)
+		}
 		_, err = f.WriteString(acceptedProblem.getLink())
-		if err != nil { panic(err) }
+		if err != nil {
+			panic(err)
+		}
 		fmt.Println("Created File:", acceptedProblem.getFileName())
 		f.Close()
 	}
 }
 
-func getSubmissions (handle string) Submissions {
-	resp, err := http.Get("http://codeforces.com/api/user.status?handle="+handle+"&from=1&count=10000")
+func getSubmissions(handle string) Submissions {
+	resp, err := http.Get("http://codeforces.com/api/user.status?handle=" + handle + "&from=1&count=10000")
 	defer resp.Body.Close()
 	if err != nil {
 		fmt.Println("HTTP Request Error! Check Your Connection and Check whether codeforces is running or not. : ", err)
@@ -80,24 +84,30 @@ type Submissions []struct {
 	MemoryConsumedBytes int    `json:"memoryConsumedBytes"`
 }
 type status struct {
-	Status string `json:"status"`
+	Status string      `json:"status"`
 	Result Submissions `json:"result"`
 }
 
 type AcceptedProblem struct {
 	contestId, submissionID int
-	name, language, index string
+	name, language, index   string
 }
 
-func (l AcceptedProblem) getLink () string {
-	return "https://codeforces.com/contest/" + strconv.Itoa(l.contestId) + "/submission/" + strconv.Itoa(l.submissionID)
+func (l AcceptedProblem) getLink() string {
+	var gymOrContest string
+	if l.contestId >= 10000 {
+		gymOrContest = "gym"
+	} else {
+		gymOrContest = "contest"
+	}
+	return "https://codeforces.com/" + gymOrContest + "/" + strconv.Itoa(l.contestId) + "/submission/" + strconv.Itoa(l.submissionID)
 }
 
 func (l AcceptedProblem) getFileName() string {
-	return strconv.Itoa(l.contestId) + l.index + "_" + normalize(l.name) + "." + l.language
+	return strconv.Itoa(l.contestId) + "_" + l.index + "_" + normalize(l.name) + "." + l.language
 }
 
-func normalize (name string) string {
+func normalize(name string) string {
 	splitted := strings.Split(name, " ")
 	var res string
 	for _, v := range splitted {
@@ -109,7 +119,9 @@ func normalize (name string) string {
 func removeSlashes(s string) string {
 	var res string
 	for i := 0; i < len(s); i++ {
-		if s[i] != '/' {res += string(s[i])}
+		if s[i] != '/' {
+			res += string(s[i])
+		}
 	}
 	return res
 }

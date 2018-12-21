@@ -104,7 +104,7 @@ func (l AcceptedProblem) getLink() string {
 }
 
 func (l AcceptedProblem) getFileName() string {
-	return strconv.Itoa(l.contestId) + "_" + l.index + "_" + normalize(l.name) + "." + l.language
+	return strconv.Itoa(l.contestId) + "-" + l.index + "_" + normalize(l.name) + "." + l.language
 }
 
 func normalize(name string) string {

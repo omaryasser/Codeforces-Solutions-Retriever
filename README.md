@@ -6,7 +6,7 @@ I implemented it as I needed to collect all of my codeforces solution links and 
 
 ### Running
 * **Download** ```main.exe``` file.
-* Open the **terminal** and go to the directory containing **main.exe** file.
+* Open the **terminal** and go to the directory containing ```main.exe``` file.
 * Type ```./main.exe``` to **execute** the code.
 * You will be asked for the **codeforces handle** for which the accepted solution links will be retrieved.
 

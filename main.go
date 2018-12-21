@@ -104,10 +104,23 @@ func (l AcceptedProblem) getLink() string {
 }
 
 func (l AcceptedProblem) getFileName() string {
-	return strconv.Itoa(l.contestId) + "-" + l.index + "_" + normalize(l.name) + "." + l.language
+	return strconv.Itoa(l.contestId) + "-" + l.index + "_" + normalizeProblemName(l.name) + "." + normalizeLanguageName(l.language)
 }
 
-func normalize(name string) string {
+func normalizeLanguageName(s string) string {
+	if strings.Contains(s, "Java") || strings.Contains(s, "java") {
+		return "java"
+	} else if strings.Contains(s, "Gnu") || strings.Contains(s, "C++") || strings.Contains(s, "c++") {
+		return "cpp"
+	} else if strings.Contains(s, "Python") || strings.Contains(s, "python"){
+		return "python"
+	} else if strings.Contains(s, "Go") || strings.Contains(s, "go"){
+		return "go"
+	}
+	return s
+}
+
+func normalizeProblemName(name string) string {
 	splitted := strings.Split(name, " ")
 	var res string
 	for _, v := range splitted {

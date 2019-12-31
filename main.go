@@ -25,10 +25,7 @@ func main() {
 	}
 
 	folderName := "./Codeforces Solutions"
-	err := os.Mkdir(folderName, 0700)
-	if err != nil {
-		panic(err)
-	}
+	os.Mkdir(folderName, 0700)
 	for _, acceptedProblem := range acceptedProblems {
 		f, err := os.OpenFile(folderName+"/"+acceptedProblem.getFileName(), os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0700)
 		if err != nil {
@@ -52,6 +49,9 @@ func getSubmissions(handle string) Submissions {
 	body, _ := ioutil.ReadAll(resp.Body)
 	arr := status{}
 	json.Unmarshal(body, &arr)
+        if arr.Status == "FAILED" {
+                fmt.Println("Codeforces handle incorrect! Please try again.")
+        }
 	return arr.Result
 }
 
